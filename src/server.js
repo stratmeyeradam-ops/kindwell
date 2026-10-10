@@ -1,14 +1,20 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const Stripe = require('stripe');
 const db = require('./db');
 
+// Resolve paths relative to this file (works everywhere)
+const ROOT = path.join(__dirname, '..');
+const VIEWS = path.join(ROOT, 'views');
+const PUBLIC = path.join(ROOT, 'public');
+
 const app = express();
 app.set('view engine', 'ejs');
-app.set('views', path.join(process.cwd(), 'views'));
-app.use(express.static(path.join(process.cwd(), 'public')));
+app.set('views', VIEWS);
+app.use(express.static(PUBLIC));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
@@ -18,14 +24,24 @@ app.use(session({
   cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
 
-const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
-const stripe = new Stripe(stripeKey);
-
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
 const PRICE_IDS = {
   tier1: process.env.STRIPE_PRICE_TIER1 || 'price_tier5',
   tier2: process.env.STRIPE_PRICE_TIER2 || 'price_tier10',
   tier3: process.env.STRIPE_PRICE_TIER3 || 'price_tier15'
 };
+
+// Health check (for debugging)
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    cwd: process.cwd(),
+    views: VIEWS,
+    viewsExist: fs.existsSync(VIEWS),
+    publicExists: fs.existsSync(PUBLIC),
+    db: 'connected'
+  });
+});
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
@@ -63,10 +79,7 @@ app.get('/coaches', (req, res) => {
   res.render('coaches', { coaches });
 });
 app.get('/store', (req, res) => res.render('store'));
-app.get('/subscribe', (req, res) => {
-  if (req.session.user) return res.redirect('/dashboard');
-  res.render('subscribe');
-});
+app.get('/subscribe', (req, res) => { if (req.session.user) return res.redirect('/dashboard'); res.render('subscribe'); });
 app.get('/legal', (req, res) => res.render('legal'));
 app.get('/refund', (req, res) => res.render('refund'));
 app.get('/privacy', (req, res) => res.render('privacy'));
@@ -74,10 +87,7 @@ app.get('/terms', (req, res) => res.render('terms'));
 app.get('/contact', (req, res) => res.render('contact'));
 
 // Auth
-app.get('/login', (req, res) => {
-  if (req.session.user) return res.redirect('/dashboard');
-  res.render('login', { error: null });
-});
+app.get('/login', (req, res) => { if (req.session.user) return res.redirect('/dashboard'); res.render('login', { error: null }); });
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
@@ -91,10 +101,7 @@ app.post('/login', (req, res) => {
   db.prepare('INSERT INTO login_events (user_id, ip_address, success) VALUES (?, ?, 1)').run(user.id, req.ip);
   res.redirect('/dashboard');
 });
-app.get('/register', (req, res) => {
-  if (req.session.user) return res.redirect('/dashboard');
-  res.render('register', { error: null });
-});
+app.get('/register', (req, res) => { if (req.session.user) return res.redirect('/dashboard'); res.render('register', { error: null }); });
 app.post('/register', (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -102,7 +109,7 @@ app.post('/register', (req, res) => {
     db.prepare('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)').run(name, email, hash);
     res.redirect('/login');
   } catch (e) {
-    res.render('register', { error: e.message.includes('UNIQUE') ? 'Email already registered' : 'Registration failed. Try again.' });
+    res.render('register', { error: e.message.includes('UNIQUE') ? 'Email already registered' : 'Registration failed.' });
   }
 });
 app.get('/logout', (req, res) => { req.session.destroy(); res.redirect('/'); });
@@ -115,39 +122,27 @@ app.get('/dashboard', (req, res) => {
   res.render('dashboard', { user, recentLogins });
 });
 
-// Message Board
+// Board
 app.get('/board', (req, res) => {
   if (!req.session.user) return res.redirect('/login');
   const tier = req.session.tier || 0;
   const visibleLevel = tier + 1;
-  const messages = db.prepare(`
-    SELECT m.*, u.name as author, (SELECT COUNT(*) FROM replies WHERE message_id = m.id) as reply_count
-    FROM messages m JOIN users u ON m.user_id = u.id 
-    WHERE m.tier_level <= ? ORDER BY m.created_at DESC LIMIT 50
-  `).all(visibleLevel);
-  const canPost = tier >= 1;
-  res.render('board', { messages, tier, canPost, visibleLevel });
+  const messages = db.prepare('SELECT m.*, u.name as author, (SELECT COUNT(*) FROM replies WHERE message_id = m.id) as reply_count FROM messages m JOIN users u ON m.user_id = u.id WHERE m.tier_level <= ? ORDER BY m.created_at DESC LIMIT 50').all(visibleLevel);
+  res.render('board', { messages, tier, canPost: tier >= 1, visibleLevel });
 });
-
 app.post('/board/post', (req, res) => {
   if (!req.session.user || req.session.tier < 1) return res.redirect('/subscribe');
-  const { title, body } = req.body;
-  const level = Math.min(req.session.tier + 1, 4);
-  db.prepare('INSERT INTO messages (user_id, title, body, tier_level) VALUES (?, ?, ?, ?)').run(req.session.user.id, title, body, level);
+  db.prepare('INSERT INTO messages (user_id, title, body, tier_level) VALUES (?, ?, ?, ?)').run(req.session.user.id, req.body.title, req.body.body, Math.min(req.session.tier + 1, 4));
   res.redirect('/board');
 });
-
 app.get('/board/:id', (req, res) => {
   if (!req.session.user) return res.redirect('/login');
   const tier = req.session.tier || 0;
-  const visibleLevel = tier + 1;
-  const message = db.prepare(`SELECT m.*, u.name as author FROM messages m JOIN users u ON m.user_id = u.id WHERE m.id = ? AND m.tier_level <= ?`).get(req.params.id, visibleLevel);
+  const message = db.prepare('SELECT m.*, u.name as author FROM messages m JOIN users u ON m.user_id = u.id WHERE m.id = ? AND m.tier_level <= ?').get(req.params.id, tier + 1);
   if (!message) return res.redirect('/board');
-  const replies = db.prepare(`SELECT r.*, u.name as author FROM replies r JOIN users u ON r.user_id = u.id WHERE r.message_id = ? ORDER BY r.created_at ASC`).all(req.params.id);
-  const canReply = tier >= 2;
-  res.render('board-post', { message, replies, tier, canReply });
+  const replies = db.prepare('SELECT r.*, u.name as author FROM replies r JOIN users u ON r.user_id = u.id WHERE r.message_id = ? ORDER BY r.created_at ASC').all(req.params.id);
+  res.render('board-post', { message, replies, tier, canReply: tier >= 2 });
 });
-
 app.post('/board/:id/reply', (req, res) => {
   if (!req.session.user || req.session.tier < 2) return res.redirect('/subscribe');
   db.prepare('INSERT INTO replies (message_id, user_id, body) VALUES (?, ?, ?)').run(req.params.id, req.session.user.id, req.body.body);
@@ -157,8 +152,7 @@ app.post('/board/:id/reply', (req, res) => {
 // Stripe
 app.post('/api/stripe/checkout', async (req, res) => {
   try {
-    const { tier } = req.body;
-    const priceId = [null, PRICE_IDS.tier1, PRICE_IDS.tier2, PRICE_IDS.tier3][tier];
+    const priceId = [null, PRICE_IDS.tier1, PRICE_IDS.tier2, PRICE_IDS.tier3][req.body.tier];
     if (!priceId) return res.status(400).json({ error: 'Invalid tier' });
     const sess = await stripe.checkout.sessions.create({
       mode: 'subscription',
@@ -166,37 +160,32 @@ app.post('/api/stripe/checkout', async (req, res) => {
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${req.protocol}://${req.get('host')}/dashboard?sub=success`,
       cancel_url: `${req.protocol}://${req.get('host')}/subscribe?canceled=true`,
-      metadata: { user_id: String(req.session.user?.id || '0'), tier: String(tier) }
+      metadata: { user_id: String(req.session.user?.id || '0'), tier: String(req.body.tier) }
     });
     res.json({ url: sess.url });
-  } catch (e) {
-    res.status(500).json({ error: 'Payment setup failed. Please try again.' });
-  }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   let event;
-  try {
-    event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder');
-  } catch (e) { return res.status(400).send('Webhook Error'); }
-
+  try { event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET || 'whsec_x'); }
+  catch (e) { return res.status(400).send('Webhook Error'); }
   if (event.type === 'checkout.session.completed') {
     const s = event.data.object;
-    const tier = parseInt(s.metadata?.tier || '1');
-    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(s.customer_email || s.client_reference_id);
-    if (user) db.prepare('UPDATE users SET subscription_tier = ?, stripe_sub_id = ? WHERE id = ?').run(tier, s.subscription, user.id);
+    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(s.customer_email);
+    if (user) db.prepare('UPDATE users SET subscription_tier = ?, stripe_sub_id = ? WHERE id = ?').run(parseInt(s.metadata?.tier||'1'), s.subscription, user.id);
   }
   if (event.type === 'customer.subscription.deleted') {
-    db.prepare('UPDATE users SET subscription_tier = 0, stripe_sub_id = NULL WHERE stripe_sub_id = ?').run(event.data.object.id);
+    db.prepare('UPDATE users SET subscription_tier = 0 WHERE stripe_sub_id = ?').run(event.data.object.id);
   }
   res.json({ received: true });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
-  res.status(500).send('Something went wrong. Please try again.');
+  console.error('ERROR:', err.message, err.stack?.split('\n')[1]);
+  res.status(500).send(`<pre>${err.message}</pre>`);
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Kindwell running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Kindwell on :${PORT} | views: ${VIEWS} | exists: ${fs.existsSync(VIEWS)}`));
