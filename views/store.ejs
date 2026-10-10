@@ -1,0 +1,116 @@
+<% title = "Store"; include partials/header %>
+<section class="page-header">
+  <h1>Kindwell Natural Store</h1>
+  <p class="page-subtitle">Curated homeopathic remedies and natural wellness products.</p>
+</section>
+
+<div class="container">
+  <div id="store-container">
+    <div class="store-loading" id="store-loading">
+      <div class="spinner"></div>
+      <p>Loading our natural products...</p>
+    </div>
+    <div class="product-grid" id="product-grid"></div>
+    <div class="store-empty" id="store-empty" style="display:none;">
+      <p>Our product catalog is being updated. Please check back soon.</p>
+    </div>
+  </div>
+
+  <div class="store-info">
+    <h3>About Our Products</h3>
+    <p>All remedies and products in our store are sourced from trusted manufacturers with verified potency and quality standards. We select only what we would use ourselves — gentle, effective, and true to the homeopathic tradition.</p>
+    <p>Products ship from our Black Hills warehouse. Orders placed before 2pm CST ship same day.</p>
+  </div>
+</div>
+
+<script>
+// Hostinger Ecommerce Storefront API integration
+const SALES_CHANNEL_ID = '<%- typeof SALES_CHANNEL_ID !== "undefined" ? SALES_CHANNEL_ID : "REPLACE_WITH_CHANNEL_ID" %>';
+const STORE_API = 'https://api-ecommerce.hostinger.com/v2';
+
+async function loadStore() {
+  try {
+    const res = await fetch(`${STORE_API}/channels/${SALES_CHANNEL_ID}/products?limit=50`);
+    if (!res.ok) throw new Error('Store not ready');
+    const data = await res.json();
+    
+    const grid = document.getElementById('product-grid');
+    document.getElementById('store-loading').style.display = 'none';
+    
+    if (!data.products || data.products.length === 0) {
+      document.getElementById('store-empty').style.display = 'block';
+      return;
+    }
+
+    // Load variants for pricing
+    const variantRes = await fetch(`${STORE_API}/channels/${SALES_CHANNEL_ID}/variants?limit=100`);
+    const variantsData = await variantRes.json();
+    const variants = variantsData.variants || [];
+
+    let html = '';
+    data.products.forEach(product => {
+      const productVariants = variants.filter(v => v.product_id === product.id);
+      const v = productVariants[0];
+      const price = v ? (v.prices && v.prices[0]) : null;
+      const amount = price ? (price.sale_amount || price.amount) / Math.pow(10, price.currency?.decimal_digits || 2) : null;
+      
+      html += `
+        <div class="product-card">
+          <div class="product-img">${product.image_url ? `<img src="${product.image_url}" alt="${product.name}"/>` : '🌿'}</div>
+          <h4>${product.name}</h4>
+          <p class="product-desc">${(product.description || '').substring(0, 120)}...</p>
+          ${amount !== null ? `<p class="product-price">$${amount.toFixed(2)}</p>` : ''}
+          <button class="btn btn-primary btn-sm" onclick="addToCart('${v ? v.id : ''}')">Add to Cart</button>
+        </div>
+      `;
+    });
+    grid.innerHTML = html;
+  } catch (e) {
+    document.getElementById('store-loading').style.display = 'none';
+    document.getElementById('store-empty').style.display = 'block';
+    console.error('Store load error:', e);
+  }
+}
+
+// Cart management (localStorage)
+function getCart() {
+  return JSON.parse(localStorage.getItem('kindwell_cart') || '[]');
+}
+
+function addToCart(variantId) {
+  const cart = getCart();
+  const existing = cart.find(i => i.variant_id === variantId);
+  if (existing) {
+    existing.quantity++;
+  } else {
+    cart.push({ variant_id: variantId, quantity: 1 });
+  }
+  localStorage.setItem('kindwell_cart', JSON.stringify(cart));
+  alert('Added to cart. Proceed to checkout at the top of the page.');
+}
+
+async function checkout() {
+  const cart = getCart();
+  if (cart.length === 0) return alert('Your cart is empty');
+  
+  const res = await fetch(`${STORE_API}/channels/${SALES_CHANNEL_ID}/checkout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: cart,
+      success_url: window.location.origin + '/store?success=true',
+      cancel_url: window.location.origin + '/store?canceled=true',
+      locale: 'en'
+    })
+  });
+  
+  if (res.ok) {
+    const data = await res.json();
+    window.location.href = data.url;
+  }
+}
+
+loadStore();
+</script>
+
+<% include partials/footer %>

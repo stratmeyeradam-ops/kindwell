@@ -1,0 +1,48 @@
+<% title = "Homeopathic Remedies"; include partials/header %>
+<section class="page-header">
+  <h1>Homeopathic Remedies</h1>
+  <p class="page-subtitle">A guide to classical remedies — what they address, how they work, and when to consider them.</p>
+</section>
+
+<div class="container">
+  <div class="prose info-box">
+    <strong>Important:</strong> Homeopathic remedies are highly individualized. The information below is educational. For personal remedy selection, consult a qualified homeopath. Remedies listed here are common starting points for their respective presentations.
+  </div>
+
+  <div class="remedy-grid">
+    <% remedies.forEach(function(remedy) { %>
+      <div class="remedy-card">
+        <div class="remedy-header">
+          <h3><%= remedy.name %></h3>
+        </div>
+        <p class="remedy-use"><%= remedy.use %></p>
+        <div class="remedy-detail locked" <% if (typeof tier === 'undefined' || tier < 1) { %> data-locked="true"<% } %>>
+          <span class="lock-icon">🔒</span>
+          <p>Detailed materia medica, dosing guidance, and case studies available to subscribers.</p>
+          <% if (typeof tier === 'undefined' || tier < 1) { %>
+            <a href="/subscribe" class="btn btn-sm">Unlock with subscription</a>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+
+  <section class="prose" style="margin-top: 3rem;">
+    <h2>How Homeopathy Works</h2>
+    <p>Classical homeopathy operates on two core principles:</p>
+    <ul>
+      <li><strong>Like cures like</strong> (similia similibus curentur) — a substance that produces symptoms in a healthy person can treat similar symptoms in a sick person when given in very small doses.</li>
+      <li><strong>The law of infinitesimals</strong> — the more a remedy is diluted and succussed (vigorously shaken), the more potent it becomes.</li>
+    </ul>
+    <p>Remedies are typically taken as small pellets or liquid drops. Potencies range from low (3C, 6C) for acute symptoms to high (30C, 200C) for deeper constitutional patterns.</p>
+
+    <% if (typeof tier === 'undefined' || tier < 2) { %>
+      <div class="info-box gold">
+        <strong>Advanced content:</strong> Dosing protocols, potency selection guides, and remedy comparison charts are available to $10+ subscribers.
+        <a href="/subscribe" class="btn btn-sm">Upgrade</a>
+      </div>
+    <% } %>
+  </section>
+</div>
+
+<% include partials/footer %>

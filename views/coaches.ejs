@@ -1,0 +1,38 @@
+<% title = "Our Coaches"; include partials/header %>
+<section class="page-header">
+  <h1>Our Coaches</h1>
+  <p class="page-subtitle">Experienced guides in natural healing. Currently not accepting new clients.</p>
+</section>
+
+<div class="container">
+  <div class="info-box">
+    <strong>Notice:</strong> All of our coaches are currently at capacity and not accepting new clients. We appreciate your patience — waitlist openings will be announced on this page and to subscribers.
+  </div>
+
+  <div class="coach-grid">
+    <% coaches.forEach(function(coach) { %>
+      <div class="coach-card">
+        <div class="coach-avatar">👤</div>
+        <h3><%= coach.name %></h3>
+        <p class="coach-specialty"><%= coach.specialty %></p>
+        <span class="coach-status status-full"><%= coach.status %></span>
+      </div>
+    <% }); %>
+  </div>
+
+  <section class="prose" style="margin-top: 3rem;">
+    <h2>What Our Coaches Offer</h2>
+    <p>When openings become available, our coaches provide:</p>
+    <ul>
+      <li>Individual homeopathic consultations and remedy selection</li>
+      <li>Stress management coaching using natural protocols</li>
+      <li>Mind-body integration work (breathwork, grounding, movement)</li>
+      <li>Black Hills herbal tradition guidance</li>
+      <li>Ongoing support between sessions via our community board</li>
+    </ul>
+    <p>Subscribe to get first notice when a coach opens their practice.</p>
+    <a href="/subscribe" class="btn btn-primary">Join the waitlist notification</a>
+  </section>
+</div>
+
+<% include partials/footer %>

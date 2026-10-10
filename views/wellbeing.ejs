@@ -1,0 +1,71 @@
+<% title = "Well-Being"; include partials/header %>
+<section class="page-header">
+  <h1>Natural Well-Being</h1>
+  <p class="page-subtitle">Practices, remedies, and knowledge for supporting your body's natural healing processes.</p>
+</section>
+
+<div class="container">
+  <div class="content-grid">
+    <article class="content-card">
+      <img src="/images/wellbeing-breathing.jpg" alt="Person practicing breathwork in nature" />
+      <h2>Breath & Nervous System Regulation</h2>
+      <p>Your nervous system is the foundation of all well-being. When it's stuck in fight-or-flight, nothing else works. Learn the specific breathing patterns that shift your autonomic state — and when to use them.</p>
+      <div class="content-locked" <% if (typeof tier === 'undefined' || tier < 1) { %> data-locked="true"<% } %>>
+        Full guide with audio exercises and daily protocols.
+        <% if (typeof tier === 'undefined' || tier < 1) { %><a href="/subscribe" class="btn btn-sm">Unlock</a><% } %>
+      </div>
+    </article>
+
+    <article class="content-card">
+      <img src="/images/wellbeing-sleep.jpg" alt="Peaceful sleeping environment" />
+      <h2>Natural Sleep Support</h2>
+      <p>Sleep is where healing happens. Explore the homeopathic and lifestyle approaches that support deep, restorative sleep without dependency or grogginess.</p>
+      <div class="content-locked" <% if (typeof tier === 'undefined' || tier < 1) { %> data-locked="true"<% } %>>
+        Complete sleep protocol + remedy guide for insomnia patterns.
+        <% if (typeof tier === 'undefined' || tier < 1) { %><a href="/subscribe" class="btn btn-sm">Unlock</a><% } %>
+      </div>
+    </article>
+
+    <article class="content-card">
+      <img src="/images/wellbeing-digestion.jpg" alt="Fresh natural foods" />
+      <h2>Digestive Health & Gut-Brain Connection</h2>
+      <p>Your gut and brain are in constant conversation. Learn how digestive health affects mood, energy, and cognition — and the gentle remedies that support balance.</p>
+      <div class="content-locked" <% if (typeof tier === 'undefined' || tier < 1) { %> data-locked="true"<% } %>>
+        Gut-remedy matching guide + dietary protocols.
+        <% if (typeof tier === 'undefined' || tier < 1) { %><a href="/subscribe" class="btn btn-sm">Unlock</a><% } %>
+      </div>
+    </article>
+
+    <article class="content-card">
+      <img src="/images/wellbeing-immunity.jpg" alt="Person hiking in pine forest" />
+      <h2>Immune Support & Resilience</h2>
+      <p>Building a resilient immune system isn't about one superfood or one remedy. It's about the full picture — sleep, nutrition, stress management, and targeted support.</p>
+      <div class="content-locked" <% if (typeof tier === 'undefined' || tier < 1) { %> data-locked="true"<% } %>>
+        Seasonal immune protocols + remedy rotation guide.
+        <% if (typeof tier === 'undefined' || tier < 1) { %><a href="/subscribe" class="btn btn-sm">Unlock</a><% } %>
+      </div>
+    </article>
+
+    <article class="content-card">
+      <img src="/images/wellbeing-emotional.jpg" alt="Two people in supportive conversation" />
+      <h2>Emotional Balance & Grief</h2>
+      <p>Grief, anxiety, and emotional heaviness have specific homeopathic correspondences. Learn to read your emotional patterns and find the remedies that create space for processing.</p>
+      <div class="content-locked" <% if (typeof tier === 'undefined' || tier < 1) { %> data-locked="true"<% } %>>
+        Emotional remedy atlas + self-assessment tool.
+        <% if (typeof tier === 'undefined' || tier < 1) { %><a href="/subscribe" class="btn btn-sm">Unlock</a><% } %>
+      </div>
+    </article>
+
+    <article class="content-card">
+      <img src="/images/wellbeing-grounding.jpg" alt="Hands in soil in Black Hills garden" />
+      <h2>Grounding & Black Hills Traditions</h2>
+      <p>The Black Hills carry thousands of years of healing tradition. Explore the plant medicines, practices, and philosophies that emerged from this landscape — and how they integrate with homeopathic care.</p>
+      <div class="content-locked" <% if (typeof tier === 'undefined' || tier < 2) { %> data-locked="true"<% } %>>
+        Full Black Hills herbal guide + integration protocols.
+        <% if (typeof tier === 'undefined' || tier < 2) { %><a href="/subscribe" class="btn btn-sm">Unlock</a><% } %>
+      </div>
+    </article>
+  </div>
+</div>
+
+<% include partials/footer %>

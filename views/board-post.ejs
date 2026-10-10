@@ -1,0 +1,47 @@
+<% title = message.title; include partials/header %>
+<section class="page-header">
+  <h1><%= message.title %></h1>
+  <p class="page-subtitle">Posted by <%= message.author %> on <%= new Date(message.created_at).toLocaleDateString() %></p>
+</section>
+
+<div class="container">
+  <a href="/board" class="back-link">← Back to Board</a>
+  
+  <div class="thread">
+    <div class="thread-op">
+      <p class="thread-body"><%= message.body %></p>
+    </div>
+
+    <h3 style="margin: 2rem 0 1rem;">Replies (<%= replies.length %>)</h3>
+    
+    <% if (replies.length === 0) { %>
+      <p class="empty-state">No replies yet.</p>
+    <% } %>
+
+    <% replies.forEach(function(r) { %>
+      <div class="reply-item">
+        <span class="reply-author"><%= r.author %></span>
+        <span class="reply-date"><%= new Date(r.created_at).toLocaleDateString() %></span>
+        <p><%= r.body %></p>
+      </div>
+    <% }); %>
+
+    <% if (canReply) { %>
+      <div class="new-post-box" style="margin-top: 2rem;">
+        <h3>Add a Reply</h3>
+        <form method="POST" action="/board/<%= message.id %>/reply">
+          <div class="form-group">
+            <textarea name="body" required rows="3" placeholder="Write your reply..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Post Reply</button>
+        </form>
+      </div>
+    <% } else if (tier < 2) { %>
+      <div class="info-box" style="margin-top: 2rem;">
+        Reply access requires the Grow tier ($10/month). <a href="/subscribe">Upgrade to reply</a>.
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<% include partials/footer %>
