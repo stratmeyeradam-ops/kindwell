@@ -24,11 +24,12 @@ app.use(session({
   cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
+const cfg = require('../config.json');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || cfg.STRIPE_SECRET_KEY);
 const PRICE_IDS = {
-  tier1: process.env.STRIPE_PRICE_TIER1 || 'price_tier5',
-  tier2: process.env.STRIPE_PRICE_TIER2 || 'price_tier10',
-  tier3: process.env.STRIPE_PRICE_TIER3 || 'price_tier15'
+  tier1: process.env.STRIPE_PRICE_TIER1 || cfg.STRIPE_PRICE_TIER1,
+  tier2: process.env.STRIPE_PRICE_TIER2 || cfg.STRIPE_PRICE_TIER2,
+  tier3: process.env.STRIPE_PRICE_TIER3 || cfg.STRIPE_PRICE_TIER3
 };
 
 // Health check (for debugging)
