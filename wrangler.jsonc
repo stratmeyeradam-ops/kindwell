@@ -1,0 +1,61 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kindwell-app",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_sender_addresses": [
+        "noreply@kindwell.org"
+      ]
+    }
+  ],
+  "vars": {
+    "APP_ORIGIN": "https://kindwell.org",
+    "PAYPAL_MODE": "live",
+    "PAYPAL_ENVIRONMENT": "live",
+    "PAYPAL_CLIENT_ID": "BAAgJrSzMB-iujuh0nmgacfjPW8lOvB3abiLRl3enAahnShF4GGsSTpGCXpgKLNcD_XYXlcmv4LXbndhOk",
+    "PAYPAL_PRODUCT_ID": "PROD-25X02388PF4003736",
+    "PAYPAL_PLAN_KIND": "P-3TV2511436594345RNKPWZRQ",
+    "PAYPAL_PLAN_STEADY": "P-79W99090FM388913ENKPWZRY",
+    "PAYPAL_PLAN_SUPPORTED": "P-9DJ86335SB981170PNKPWZRY",
+    "PAYPAL_WEBHOOK_ID": "80H874863C6615701",
+    "PRINTIFY_MODE": "live",
+    "PRINTIFY_SHOP_ID": "28859800",
+    "PRINTIFY_ORDER_APPROVAL": "threshold",
+    "PRINTIFY_ALLOW_ORDER_CREATION": "true",
+    "PRINTIFY_PRODUCTION_ENABLED": "true",
+    "PRINTIFY_AUTO_PRODUCTION_MAX_TOTAL": "75",
+    "EMAIL_MODE": "cloudflare",
+    "MEMBERSHIPS_ENABLED": "false",
+    "PAYPAL_LOGIN_ENABLED": "false"
+  },
+  "triggers": {
+    "crons": [
+      "*/15 * * * *"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kindwell-db-prod",
+      "database_id": "b5c7a232-acb5-4324-bff3-68cbd38e0db0"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "STORAGE",
+      "bucket_name": "kindwell-vault-prod"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="3000" viewBox="0 0 2400 3000">
+  <rect width="2400" height="3000" fill="#6f8f7a"/>
+  <rect x="110" y="110" width="2180" height="2780" rx="80" fill="none" stroke="#dce8df" stroke-width="12"/>
+  <path d="M1200 520c-95-106-295-47-295 106 0 133 157 237 295 345 138-108 295-212 295-345 0-153-200-212-295-106Z" fill="#fbf7ef"/>
+  <path d="M540 1120c170 120 280 265 335 455M1860 1120c-170 120-280 265-335 455" fill="none" stroke="#b7cdbb" stroke-width="22" stroke-linecap="round"/>
+  <text x="1200" y="1780" text-anchor="middle" font-family="Georgia,serif" font-size="128" fill="#fbf7ef">You don’t have to</text>
+  <text x="1200" y="1950" text-anchor="middle" font-family="Georgia,serif" font-size="128" fill="#fbf7ef">solve everything today.</text>
+  <text x="1200" y="2450" text-anchor="middle" font-family="Arial,sans-serif" font-size="52" fill="#dce8df" letter-spacing="10">KINDWELL</text>
+</svg>

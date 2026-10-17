@@ -1,0 +1,307 @@
+// src/services/memberships.js
+// Membership tiers, entitlements, and subscription persistence for KindWell.
+//
+// Billing moved from PayPal to Stripe: subscriptions are identified by a Stripe
+// subscription id and, where known, a Stripe customer id. The paypal_* columns
+// remain on the table so historical rows stay readable, but nothing writes them
+// any more.
+
+export const TIERS = {
+  FREE: 'free',
+  KIND: 'kind',
+  STEADY: 'steady',
+  SUPPORTED: 'supported'
+};
+
+export const TIER_LEVELS = {
+  free: 0,
+  kind: 1,
+  steady: 2,
+  supported: 3
+};
+
+// These must stay in step with the Stripe prices. Stripe is authoritative for
+// what a customer is actually charged; these values are what KindWell records,
+// so a mismatch makes revenue reporting quietly wrong.
+export const TIER_PRICES = {
+  free: 0,
+  kind: 5.00,
+  steady: 10.00,
+  supported: 20.00
+};
+
+/**
+ * Entitlement checking helpers
+ */
+export function hasTier(user, requiredTier) {
+  if (!user) return false;
+  const userLevel = TIER_LEVELS[user.tier] || 0;
+  const requiredLevel = TIER_LEVELS[requiredTier] || 0;
+  return userLevel >= requiredLevel;
+}
+
+export function canSaveFavorites(user) {
+  return hasTier(user, TIERS.KIND);
+}
+
+export function canReadWellnessLetter(user) {
+  return hasTier(user, TIERS.KIND);
+}
+
+export function canAccessQuizzes(user) {
+  return hasTier(user, TIERS.STEADY);
+}
+
+export function canAccessFullPractices(user) {
+  return hasTier(user, TIERS.STEADY);
+}
+
+export function canAccessDeepSpiritualContent(user) {
+  return hasTier(user, TIERS.STEADY);
+}
+
+export function canAccessWorksheets(user) {
+  return hasTier(user, TIERS.STEADY);
+}
+
+export function canReadCircle(user) {
+  // Steady ($10) and Supported ($20) can read Circle spaces
+  return hasTier(user, TIERS.STEADY);
+}
+
+export function canPostInCircle(user) {
+  // Supported ($20) has full posting and reply access
+  return hasTier(user, TIERS.SUPPORTED);
+}
+
+export function getStoreDiscountRate(user) {
+  // Supported members receive a 15% discount on curated store items
+  if (hasTier(user, TIERS.SUPPORTED)) {
+    return 0.15;
+  }
+  return 0.0;
+}
+
+export function canAccessCourseFull(user) {
+  return hasTier(user, TIERS.SUPPORTED);
+}
+
+export function canAccessCourseIntro(user) {
+  return hasTier(user, TIERS.STEADY);
+}
+
+export function isValidTier(tier) {
+  return Object.prototype.hasOwnProperty.call(TIER_LEVELS, tier) && tier !== TIERS.FREE;
+}
+
+function newSubscriptionId() {
+  return 'sub_' + Math.random().toString(36).slice(2, 14);
+}
+
+/**
+ * Activates a membership subscription.
+ *
+ * A newly verified active subscription supersedes the member's prior active
+ * plan — there is exactly one live subscription per member.
+ */
+export async function activateSubscription(db, {
+  userId,
+  tier,
+  provider = 'stripe',
+  providerSubId = null,
+  providerCustomerId = null,
+  periodStart = null,
+  periodEnd = null
+}) {
+  if (!isValidTier(tier)) {
+    throw new Error('Invalid subscription tier.');
+  }
+
+  const subId = providerSubId ? `stripe_${providerSubId}` : newSubscriptionId();
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const nextMonth = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+  await db.prepare(`
+    UPDATE subscriptions
+    SET status = 'canceled', updated_at = ?
+    WHERE user_id = ? AND status = 'active'
+  `).bind(nowIso, userId).run();
+
+  await db.prepare(`
+    INSERT INTO subscriptions (
+      id, user_id, tier, amount, currency, status, provider, provider_sub_id,
+      provider_customer_id, current_period_start, current_period_end,
+      cancel_at_period_end, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, 'USD', 'active', ?, ?, ?, ?, ?, 0, ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      tier = excluded.tier, amount = excluded.amount, status = 'active',
+      provider_customer_id = COALESCE(excluded.provider_customer_id, subscriptions.provider_customer_id),
+      current_period_start = excluded.current_period_start, current_period_end = excluded.current_period_end,
+      updated_at = excluded.updated_at
+  `).bind(
+    subId,
+    userId,
+    tier,
+    TIER_PRICES[tier],
+    provider,
+    providerSubId,
+    providerCustomerId,
+    periodStart || nowIso,
+    periodEnd || nextMonth,
+    nowIso,
+    nowIso
+  ).run();
+
+  await db.prepare('UPDATE user SET tier = ?, updatedAt = ? WHERE id = ?')
+    .bind(tier, nowIso, userId).run();
+
+  return { success: true, tier, subscriptionId: subId };
+}
+
+/** Record a subscription that exists at Stripe but is not yet confirmed. */
+export async function recordPendingStripeSubscription(db, {
+  userId,
+  tier,
+  stripeSubscriptionId = null,
+  stripeCustomerId = null
+}) {
+  if (!isValidTier(tier)) throw new Error('Invalid subscription tier.');
+  const now = new Date().toISOString();
+  const id = newSubscriptionId();
+  await db.prepare(`
+    INSERT INTO subscriptions (
+      id, user_id, tier, amount, currency, status, provider, provider_sub_id,
+      provider_customer_id, current_period_start, current_period_end,
+      cancel_at_period_end, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, 'USD', 'pending', 'stripe', ?, ?, ?, ?, 0, ?, ?)
+  `).bind(
+    id, userId, tier, TIER_PRICES[tier], stripeSubscriptionId, stripeCustomerId, now, now, now, now
+  ).run();
+  return { id, stripeSubscriptionId };
+}
+
+/**
+ * Apply a Stripe subscription status to the local record.
+ *
+ * Stripe reports the whole lifecycle through one object, including states that
+ * occur before the customer has finished paying (`incomplete`). A pre-approval
+ * state must leave the row pending and must never downgrade the member, or the
+ * subscription is killed by the webhook announcing its birth. An unrecognised
+ * status is recorded and otherwise ignored — it is not evidence of cancellation.
+ */
+export async function applyStripeSubscriptionStatus(db, {
+  stripeSubscriptionId,
+  tier = null,
+  status,
+  userId = null,
+  customerId = null,
+  periodStart = null,
+  periodEnd = null,
+  cancelAtPeriodEnd = false
+}) {
+  // Imported lazily: stripe.js reads the tier prices from this module, and a
+  // static import here would close the cycle at load time.
+  const { mapStripeStatus } = await import('./stripe.js');
+  const localStatus = mapStripeStatus(status);
+  const now = new Date().toISOString();
+
+  const existing = stripeSubscriptionId
+    ? await db.prepare(`
+        SELECT id, user_id, tier FROM subscriptions
+        WHERE provider_sub_id = ? ORDER BY created_at DESC LIMIT 1
+      `).bind(stripeSubscriptionId).first()
+    : null;
+
+  if (localStatus === 'active') {
+    const resolvedUserId = userId || existing?.user_id || null;
+    const resolvedTier = tier || existing?.tier || null;
+    if (!resolvedUserId || !resolvedTier || !isValidTier(resolvedTier)) {
+      throw new Error('An active Stripe subscription requires a user and a valid tier.');
+    }
+    if (existing) {
+      await db.prepare(`
+        UPDATE subscriptions
+        SET tier = ?, amount = ?, status = 'active', provider = 'stripe',
+            provider_customer_id = COALESCE(?, provider_customer_id),
+            current_period_start = COALESCE(?, current_period_start),
+            current_period_end = COALESCE(?, current_period_end),
+            cancel_at_period_end = ?, updated_at = ?
+        WHERE id = ?
+      `).bind(
+        resolvedTier, TIER_PRICES[resolvedTier], customerId, periodStart, periodEnd, cancelAtPeriodEnd ? 1 : 0, now, existing.id
+      ).run();
+      await db.prepare('UPDATE user SET tier = ?, updatedAt = ? WHERE id = ?')
+        .bind(resolvedTier, now, resolvedUserId).run();
+      return { success: true, tier: resolvedTier, subscriptionId: existing.id };
+    }
+    const activated = await activateSubscription(db, {
+      userId: resolvedUserId,
+      tier: resolvedTier,
+      provider: 'stripe',
+      providerSubId: stripeSubscriptionId,
+      providerCustomerId: customerId,
+      periodStart,
+      periodEnd
+    });
+    if (cancelAtPeriodEnd) await db.prepare("UPDATE subscriptions SET cancel_at_period_end = 1 WHERE id = ?").bind(activated.subscriptionId).run();
+    return activated;
+  }
+
+  if (!existing) return { success: true, ignored: true };
+
+  if (localStatus === 'pending') {
+    await db.prepare(`
+      UPDATE subscriptions SET status = 'pending', updated_at = ?
+      WHERE provider_sub_id = ?
+    `).bind(now, stripeSubscriptionId).run();
+    return { success: true, userId: existing.user_id, status: 'pending', awaitingApproval: true };
+  }
+
+  if (localStatus === null) {
+    return { success: true, userId: existing.user_id, status: 'unchanged', unknownStatus: status };
+  }
+
+  await db.prepare(`
+    UPDATE subscriptions SET status = ?, updated_at = ? WHERE provider_sub_id = ?
+  `).bind(localStatus, now, stripeSubscriptionId).run();
+
+  // Entitlement follows the subscription: only a genuinely ended or unpaid
+  // subscription drops the member back to free, and never while another
+  // subscription of theirs is still active.
+  if (localStatus === 'canceled' || localStatus === 'past_due') {
+    const stillActive = await db.prepare(`
+      SELECT 1 FROM subscriptions
+      WHERE user_id = ? AND status = 'active' LIMIT 1
+    `).bind(existing.user_id).first();
+    if (!stillActive) {
+      await db.prepare("UPDATE user SET tier = 'free', updatedAt = ? WHERE id = ?")
+        .bind(now, existing.user_id).run();
+    }
+  }
+
+  return { success: true, userId: existing.user_id, status: localStatus };
+}
+
+/**
+ * Records cancellation intent. The Stripe subscription itself is cancelled
+ * through the billing portal or the Stripe API.
+ */
+export async function cancelSubscription(db, userId) {
+  const now = new Date().toISOString();
+  await db.prepare(`
+    UPDATE subscriptions SET cancel_at_period_end = 1, updated_at = ?
+    WHERE user_id = ? AND status = 'active'
+  `).bind(now, userId).run();
+  return { success: true };
+}
+
+/** The member's live Stripe customer id, for opening the billing portal. */
+export async function getStripeCustomerId(db, userId) {
+  const row = await db.prepare(`
+    SELECT provider_customer_id FROM subscriptions
+    WHERE user_id = ? AND provider_customer_id IS NOT NULL
+    ORDER BY created_at DESC LIMIT 1
+  `).bind(userId).first();
+  return row?.provider_customer_id || null;
+}

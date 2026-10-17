@@ -1,6 +1,31 @@
-kindwell.org
-node_modules/
+# Secrets and local configuration
 .env
-*.db
+.env.*
+!.env.example
+.dev.vars
+*.pem
+*.key
+
+# Dependencies and generated tooling
+node_modules/
+.wrangler/
+.vercel/
+.cache/
+
+# OS/editor noise
 .DS_Store
-config.json
+Thumbs.db
+.vscode/
+.idea/
+*.log
+.env.hostinger
+
+# Paid digital deliverables are generated on deploy, never committed:
+# scripts/generate-digital-deliverables.py writes private/digital/*.pdf
+private/
+data/
+*.db
+*.db-shm
+*.db-wal
+.claude/
+

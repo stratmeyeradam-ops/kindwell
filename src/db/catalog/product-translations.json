@@ -1,0 +1,290 @@
+[
+  {
+    "product_id": "prod_workbook",
+    "locale": "en",
+    "name": "The Self-Compassion Workbook",
+    "tagline": "34-page printable companion for tender moments",
+    "description": "A beautifully formatted guide with structured prompts, reflective exercises, and practical somatic grounding tools.",
+    "details": "[\"34 high-resolution printable PDF pages\",\"Includes 12 journal reflection templates\",\"Immediate protected digital download\"]"
+  },
+  {
+    "product_id": "prod_workbook",
+    "locale": "es",
+    "name": "Cuaderno de autocompasión y ternura",
+    "tagline": "Guía imprimible de 34 páginas para momentos difíciles",
+    "description": "Un material cuidado con ejercicios reflexivos, preguntas orientadoras y prácticas de calma somática para imprimir en casa.",
+    "details": "[\"34 páginas en PDF de alta calidad\",\"Plantillas de reflexión personal y seguimiento\",\"Descarga digital inmediata y segura\"]"
+  },
+  {
+    "product_id": "prod_workbook",
+    "locale": "pt-BR",
+    "name": "Caderno de autocompaixão e afeto",
+    "tagline": "Guia de 34 páginas em PDF para imprimir",
+    "description": "Um companheiro afetuoso com exercícios práticos, páginas de reflexão e pausas de respiração para momentos desafiadores.",
+    "details": "[\"34 páginas formatadas para impressão\",\"Roteiros de escrita terapêutica e acolhimento\",\"Acesso digital imediato e seguro\"]"
+  },
+  {
+    "product_id": "prod_tracker",
+    "locale": "en",
+    "name": "30-Day Kindness Habit Tracker",
+    "tagline": "Simple daily micro-practices without guilt or pressure",
+    "description": "Track small, honest repetitions of care: stepping outdoors, unclenched shoulders, honest boundaries, and slow tea.",
+    "details": "[\"Printable one-month circular tracker\",\"Daily inspiration card deck cutouts\",\"Tips for habit-stacking with grace\"]"
+  },
+  {
+    "product_id": "prod_tracker",
+    "locale": "es",
+    "name": "Registro de hábitos de bondad (30 días)",
+    "tagline": "Pequeñas prácticas diarias sin culpa ni exigencias",
+    "description": "Acompaña tus momentos de pausa: salir al aire libre, soltar tensiones, saborear un té y agradecer.",
+    "details": "[\"Lámina circular imprimible de 30 días\",\"Tarjetas recortables con recordatorios\",\"Enfoque libre de exigencias o castigos\"]"
+  },
+  {
+    "product_id": "prod_tracker",
+    "locale": "pt-BR",
+    "name": "Acompanhamento de 30 dias de gentileza",
+    "tagline": "Pequenos hábitos diários com leveza e sem cobranças",
+    "description": "Registre gestos simples de cuidado: respirar ar puro, soltar os ombros, preparar um chá morno e pausar.",
+    "details": "[\"Guia circular de 30 dias para imprimir\",\"Cartões de bolso com frases acolhedoras\",\"Orientação prática para cultivar bons momentos\"]"
+  },
+  {
+    "product_id": "prod_practice_cards",
+    "locale": "en",
+    "name": "Printable Somatic Practice Cards",
+    "tagline": "24 pocket-sized reminder cards for grounding anywhere",
+    "description": "Keep quick, accessible grounding techniques on your desk, in your bag, or on your refrigerator door.",
+    "details": "[\"24 illustrated pocket cards (PDF format)\",\"Step-by-step instructions on each card\",\"Formatted for standard home printing\"]"
+  },
+  {
+    "product_id": "prod_practice_cards",
+    "locale": "es",
+    "name": "Tarjetas impresas de calma y enraizamiento",
+    "tagline": "24 tarjetas de bolsillo para llevar serenidad a donde vayas",
+    "description": "Ten a mano ejercicios breves de respiración y presencia en tu bolso, escritorio o rincón favorito.",
+    "details": "[\"24 tarjetas ilustradas listas para imprimir\",\"Instrucciones claras y directas en cada una\",\"Formato estándar para hojas carta o A4\"]"
+  },
+  {
+    "product_id": "prod_practice_cards",
+    "locale": "pt-BR",
+    "name": "Cartões de práticas somáticas para imprimir",
+    "tagline": "24 cartões de bolso com pausas de serenidade",
+    "description": "Mantenha exercícios rápidos de respiração e presença na sua bolsa, mesa de trabalho ou cabeceira.",
+    "details": "[\"24 cartões ilustrados em alta resolução\",\"Passo a passo simples em cada cartão\",\"Pronto para impressão caseira\"]"
+  },
+  {
+    "product_id": "prod_sheets",
+    "locale": "en",
+    "name": "Emotional Support Quick Sheets",
+    "tagline": "6 printable one-page reference cheat-sheets",
+    "description": "Crisp, beautifully formatted reference sheets for panic grounding, setting boundaries, and active listening.",
+    "details": "[\"6 printable reference sheets\",\"Covers panic, boundaries, grief, and listening\",\"Immediate PDF download\"]"
+  },
+  {
+    "product_id": "prod_sheets",
+    "locale": "es",
+    "name": "Hojas rápidas de apoyo emocional",
+    "tagline": "6 láminas de consulta rápida para momentos de tensión",
+    "description": "Hojas claras y sintetizadas con ejercicios de emergencia ante el pánico, límites personales y escucha atenta.",
+    "details": "[\"6 láminas imprimibles en alta resolución\",\"Pautas prácticas para límites, duelo y escucha\",\"Descarga digital inmediata\"]"
+  },
+  {
+    "product_id": "prod_sheets",
+    "locale": "pt-BR",
+    "name": "Fichas práticas de apoio emocional",
+    "tagline": "6 fichas objetivas para consultar quando precisar",
+    "description": "Guias rápidos e visuais para momentos de ansiedade, organização de limites e acolhimento do luto.",
+    "details": "[\"6 fichas prontas para impressão\",\"Roteiros de emergência para ansiedade e escuta\",\"Acesso imediato ao arquivo PDF\"]"
+  },
+  {
+    "product_id": "prod_mug",
+    "locale": "en",
+    "name": "KindWell Ceramic Mug: Breathe, Steep, Notice, Care",
+    "tagline": "A small ritual for tea, coffee, and pauses",
+    "description": "A warm ceramic companion for tea, coffee, and the small pauses between.",
+    "details": "[\"11oz ceramic mug\",\"Dishwasher and microwave friendly\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_mug",
+    "locale": "es",
+    "name": "Taza de cerámica KindWell: Respirar, reposar, notar, cuidar",
+    "tagline": "Un pequeño ritual para el té, el café y las pausas",
+    "description": "Una taza cálida para el té, el café y las pequeñas pausas del día.",
+    "details": "[\"Taza de cerámica de 11 oz\",\"Apta para lavavajillas y microondas\",\"Hecha bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_mug",
+    "locale": "pt-BR",
+    "name": "Caneca de cerâmica KindWell: Respirar, acolher, notar, cuidar",
+    "tagline": "Um pequeno ritual para chá, café e pausas",
+    "description": "Uma caneca acolhedora para chá, café e as pequenas pausas do dia.",
+    "details": "[\"Caneca de cerâmica de 11 oz\",\"Pode ir à lava-louças e ao micro-ondas\",\"Feita sob demanda\"]"
+  },
+  {
+    "product_id": "prod_journal",
+    "locale": "en",
+    "name": "KindWell Ruled Journal: A Steadier Place",
+    "tagline": "A quiet cover for everyday notes",
+    "description": "A ruled journal for lists, observations, sketches, and whatever helps make the day feel more legible.",
+    "details": "[\"Ruled-line journal\",\"Printed front cover artwork\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_journal",
+    "locale": "es",
+    "name": "Diario rayado KindWell: Un lugar más firme",
+    "tagline": "Una portada serena para las notas de cada día",
+    "description": "Un diario rayado para listas, observaciones, bocetos y lo que ayuda a ordenar el día.",
+    "details": "[\"Diario de líneas\",\"Arte impreso en la portada\",\"Hecho bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_journal",
+    "locale": "pt-BR",
+    "name": "Caderno pautado KindWell: Um lugar mais sereno",
+    "tagline": "Uma capa tranquila para anotações do dia a dia",
+    "description": "Um caderno pautado para listas, observações, desenhos e o que ajuda a tornar o dia mais claro.",
+    "details": "[\"Caderno pautado\",\"Arte impresso na capa\",\"Feito sob demanda\"]"
+  },
+  {
+    "product_id": "prod_tee",
+    "locale": "en",
+    "name": "KindWell Unisex Tee: Gentle Doesn’t Mean Shallow",
+    "tagline": "An easy everyday tee in a restrained palette",
+    "description": "A soft everyday tee with a small reminder that care can have depth.",
+    "details": "[\"Curated Army, Asphalt, and Black colors\",\"Sizes S through 2XL\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_tee",
+    "locale": "es",
+    "name": "Camiseta unisex KindWell: La suavidad también tiene profundidad",
+    "tagline": "Una camiseta diaria en una paleta serena",
+    "description": "Una camiseta suave con un recordatorio de que el cuidado puede tener profundidad.",
+    "details": "[\"Colores Army, Asphalt y Black seleccionados\",\"Tallas de S a 2XL\",\"Hecha bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_tee",
+    "locale": "pt-BR",
+    "name": "Camiseta unissex KindWell: A gentileza também tem profundidade",
+    "tagline": "Uma camiseta cotidiana em uma paleta serena",
+    "description": "Uma camiseta macia com um lembrete de que o cuidado pode ter profundidade.",
+    "details": "[\"Cores Army, Asphalt e Black selecionadas\",\"Tamanhos de S a 2XL\",\"Feita sob demanda\"]"
+  },
+  {
+    "product_id": "prod_candle",
+    "locale": "en",
+    "name": "KindWell Candle: A Steadier Place to Land",
+    "tagline": "A quiet moment, made visible",
+    "description": "A gentle candle for the small pauses you choose to make room for.",
+    "details": "[\"Two current scent options from the maker\",\"Full-glass candle with KindWell label artwork\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_candle",
+    "locale": "es",
+    "name": "Vela KindWell: Un lugar más firme",
+    "tagline": "Un momento tranquilo, hecho visible",
+    "description": "Una vela suave para las pausas pequeñas que eliges cuidar.",
+    "details": "[\"Dos aromas actuales del fabricante\",\"Vela de vidrio con arte de etiqueta KindWell\",\"Hecha bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_candle",
+    "locale": "pt-BR",
+    "name": "Vela KindWell: Um lugar mais sereno",
+    "tagline": "Um momento tranquilo, tornado visível",
+    "description": "Uma vela suave para as pequenas pausas que você escolhe acolher.",
+    "details": "[\"Duas opções atuais de aroma do fabricante\",\"Vela de vidro com arte de rótulo KindWell\",\"Feita sob demanda\"]"
+  },
+  {
+    "product_id": "prod_crewneck",
+    "locale": "en",
+    "name": "KindWell Crewneck: A Steadier Place to Land",
+    "tagline": "A quiet layer for familiar rooms and long walks",
+    "description": "A classic crewneck for slow mornings, long walks, and familiar rooms.",
+    "details": "[\"Curated Black, Navy, and Sport Grey colors\",\"Sizes S through 2XL\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_crewneck",
+    "locale": "es",
+    "name": "Sudadera KindWell: Un lugar más firme",
+    "tagline": "Una capa serena para días conocidos y caminatas largas",
+    "description": "Una sudadera clásica para mañanas lentas, paseos largos y espacios familiares.",
+    "details": "[\"Colores Black, Navy y Sport Grey seleccionados\",\"Tallas de S a 2XL\",\"Hecha bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_crewneck",
+    "locale": "pt-BR",
+    "name": "Moletom KindWell: Um lugar mais sereno",
+    "tagline": "Uma camada tranquila para caminhadas e espaços familiares",
+    "description": "Um moletom clássico para manhãs lentas, caminhadas longas e lugares conhecidos.",
+    "details": "[\"Cores Black, Navy e Sport Grey selecionadas\",\"Tamanhos de S a 2XL\",\"Feito sob demanda\"]"
+  },
+  {
+    "product_id": "prod_tote",
+    "locale": "en",
+    "name": "KindWell Organic Tote: Carry What Matters",
+    "tagline": "An understated everyday carryall",
+    "description": "An understated everyday tote for books, groceries, and the things you want to keep within reach.",
+    "details": "[\"Black, Natural, and Navy options\",\"One size\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_tote",
+    "locale": "es",
+    "name": "Bolsa KindWell: Lleva lo que importa",
+    "tagline": "Una bolsa diaria, práctica y discreta",
+    "description": "Una bolsa sencilla para libros, compras y las cosas que quieres tener cerca.",
+    "details": "[\"Opciones Black, Natural y Navy\",\"Talla única\",\"Hecha bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_tote",
+    "locale": "pt-BR",
+    "name": "Bolsa KindWell: Leve o que importa",
+    "tagline": "Uma bolsa cotidiana, funcional e discreta",
+    "description": "Uma bolsa simples para livros, compras e o que você quer manter por perto.",
+    "details": "[\"Opções Black, Natural e Navy\",\"Tamanho único\",\"Feita sob demanda\"]"
+  },
+  {
+    "product_id": "prod_wall_print",
+    "locale": "en",
+    "name": "KindWell Wall Print: You Don’t Have to Solve Everything Today",
+    "tagline": "A calm note for a desk, hall, or bedside corner",
+    "description": "A calm typographic wall print made to be noticed without asking too much.",
+    "details": "[\"Three curated portrait sizes\",\"Satin poster paper\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_wall_print",
+    "locale": "es",
+    "name": "Lámina KindWell: No tienes que resolverlo todo hoy",
+    "tagline": "Una nota serena para tu escritorio o rincón favorito",
+    "description": "Una lámina tipográfica tranquila, hecha para acompañar sin exigir atención.",
+    "details": "[\"Tres tamaños verticales seleccionados\",\"Papel satinado para póster\",\"Hecha bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_wall_print",
+    "locale": "pt-BR",
+    "name": "Pôster KindWell: Você não precisa resolver tudo hoje",
+    "tagline": "Um lembrete sereno para sua mesa ou canto favorito",
+    "description": "Um pôster tipográfico tranquilo, feito para acompanhar sem pedir demais.",
+    "details": "[\"Três tamanhos verticais selecionados\",\"Papel satinado para pôster\",\"Feito sob demanda\"]"
+  },
+  {
+    "product_id": "prod_pillow",
+    "locale": "en",
+    "name": "KindWell Pillow: Make Room for a Pause",
+    "tagline": "A soft square accent for resting places",
+    "description": "A soft square accent for the place where you rest, read, or simply sit for a while.",
+    "details": "[\"Three curated square sizes\",\"Printed front artwork\",\"Made to order\"]"
+  },
+  {
+    "product_id": "prod_pillow",
+    "locale": "es",
+    "name": "Cojín KindWell: Haz espacio para una pausa",
+    "tagline": "Un acento suave para tus espacios de descanso",
+    "description": "Un cojín cuadrado y suave para el lugar donde descansas, lees o simplemente te sientas.",
+    "details": "[\"Tres tamaños cuadrados seleccionados\",\"Arte impreso en el frente\",\"Hecho bajo pedido\"]"
+  },
+  {
+    "product_id": "prod_pillow",
+    "locale": "pt-BR",
+    "name": "Almofada KindWell: Abra espaço para uma pausa",
+    "tagline": "Um toque suave para lugares de descanso",
+    "description": "Uma almofada quadrada e macia para o lugar onde você descansa, lê ou simplesmente fica.",
+    "details": "[\"Três tamanhos quadrados selecionados\",\"Arte impresso na frente\",\"Feita sob demanda\"]"
+  }
+]

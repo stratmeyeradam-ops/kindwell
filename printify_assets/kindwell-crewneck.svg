@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="3600" viewBox="0 0 3000 3600">
+  <rect width="3000" height="3600" fill="none"/>
+  <path d="M1500 680c-150-166-464-73-464 157 0 201 248 357 464 549 216-192 464-348 464-549 0-230-314-323-464-157Z" fill="#dce8df"/>
+  <path d="M1030 1650c130-150 280-225 470-225s340 75 470 225" fill="none" stroke="#dce8df" stroke-width="32" stroke-linecap="round"/>
+  <text x="1500" y="2040" text-anchor="middle" font-family="Georgia,serif" font-size="172" fill="#dce8df">A Steadier Place</text>
+  <text x="1500" y="2260" text-anchor="middle" font-family="Georgia,serif" font-size="172" fill="#dce8df">to Land</text>
+  <text x="1500" y="2500" text-anchor="middle" font-family="Arial,sans-serif" font-size="56" fill="#b7cdbb" letter-spacing="12">KINDWELL</text>
+</svg>

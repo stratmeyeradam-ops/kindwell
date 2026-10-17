@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="3600" viewBox="0 0 3000 3600">
+  <rect width="3000" height="3600" fill="#fbf7ef"/>
+  <path d="M1500 710c-146-160-452-70-452 155 0 195 240 347 452 533 212-186 452-338 452-533 0-225-306-315-452-155Z" fill="#6f8f7a"/>
+  <path d="M600 1530c250 140 430 360 540 660M2400 1530c-250 140-430 360-540 660" fill="none" stroke="#b7cdbb" stroke-width="34" stroke-linecap="round"/>
+  <text x="1500" y="2550" text-anchor="middle" font-family="Georgia,serif" font-size="150" fill="#3e5c4e">Carry what matters.</text>
+  <text x="1500" y="2790" text-anchor="middle" font-family="Arial,sans-serif" font-size="56" fill="#6f8f7a" letter-spacing="12">KINDWELL</text>
+</svg>

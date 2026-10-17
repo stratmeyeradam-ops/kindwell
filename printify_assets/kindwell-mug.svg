@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3600" height="1600" viewBox="0 0 3600 1600">
+  <rect width="3600" height="1600" fill="#fbf7ef"/>
+  <path d="M470 850c0-250 180-430 420-430s420 180 420 430c0 230-160 400-420 400S470 1080 470 850Z" fill="#dce8df"/>
+  <path d="M890 450c30 250 10 480-80 690M800 450c-30 250-10 480 80 690" fill="none" stroke="#6f8f7a" stroke-width="32" stroke-linecap="round"/>
+  <path d="M2620 1160c230-170 350-390 370-670M2810 1160c-230-170-350-390-370-670" fill="none" stroke="#b7cdbb" stroke-width="26" stroke-linecap="round"/>
+  <text x="1800" y="660" text-anchor="middle" font-family="Georgia,serif" font-size="160" fill="#3e5c4e">breathe · steep ·</text>
+  <text x="1800" y="870" text-anchor="middle" font-family="Georgia,serif" font-size="160" fill="#3e5c4e">notice · care</text>
+  <text x="1800" y="1130" text-anchor="middle" font-family="Arial,sans-serif" font-size="55" fill="#6f8f7a" letter-spacing="11">KINDWELL</text>
+</svg>

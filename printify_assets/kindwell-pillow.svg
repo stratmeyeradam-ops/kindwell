@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="3000" viewBox="0 0 3000 3000">
+  <rect width="3000" height="3000" fill="#dce8df"/>
+  <path d="M1500 710c-175-195-544-86-544 188 0 238 290 422 544 650 254-228 544-412 544-650 0-274-369-383-544-188Z" fill="#6f8f7a"/>
+  <path d="M630 1770c270-150 500-125 700 60M2370 1770c-270-150-500-125-700 60" fill="none" stroke="#fbf7ef" stroke-width="34" stroke-linecap="round"/>
+  <text x="1500" y="2230" text-anchor="middle" font-family="Georgia,serif" font-size="150" fill="#3e5c4e">Make room</text>
+  <text x="1500" y="2420" text-anchor="middle" font-family="Georgia,serif" font-size="150" fill="#3e5c4e">for a pause.</text>
+  <text x="1500" y="2670" text-anchor="middle" font-family="Arial,sans-serif" font-size="54" fill="#6f8f7a" letter-spacing="12">KINDWELL</text>
+</svg>

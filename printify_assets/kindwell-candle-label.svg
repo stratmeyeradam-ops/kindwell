@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="3000" viewBox="0 0 2400 3000">
+  <rect width="2400" height="3000" fill="#fbf7ef"/>
+  <rect x="140" y="140" width="2120" height="2720" rx="88" fill="#fffdf9" stroke="#6f8f7a" stroke-width="18"/>
+  <path d="M1200 690c-146-158-452-70-452 155 0 195 240 347 452 533 212-186 452-338 452-533 0-225-306-313-452-155Z" fill="#6f8f7a"/>
+  <path d="M530 1680c210-200 402-200 594 0M1870 1680c-210-200-402-200-594 0" fill="none" stroke="#b7cdbb" stroke-width="25" stroke-linecap="round"/>
+  <text x="1200" y="1330" text-anchor="middle" font-family="Georgia,serif" font-size="136" fill="#3e5c4e" letter-spacing="18">KINDWELL</text>
+  <text x="1200" y="2040" text-anchor="middle" font-family="Georgia,serif" font-size="118" fill="#3e5c4e">A Steadier Place</text>
+  <text x="1200" y="2185" text-anchor="middle" font-family="Georgia,serif" font-size="118" fill="#3e5c4e">to Land</text>
+  <text x="1200" y="2500" text-anchor="middle" font-family="Arial,sans-serif" font-size="54" fill="#6f8f7a" letter-spacing="7">A QUIET MOMENT, MADE VISIBLE</text>
+</svg>
