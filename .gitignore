@@ -29,3 +29,8 @@ data/
 *.db-wal
 .claude/
 
+*.env
+deploy/*.env
+.npm/
+.grok/
+*.sqlite
